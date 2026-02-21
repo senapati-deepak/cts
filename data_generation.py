@@ -54,12 +54,48 @@ def generate_assignment_data():
     })
 
     # Save files
-    tower_logs.to_csv('tower_logs.csv', index=False)
-    transcripts_df.to_csv('transcripts.csv', index=False)
-    routes_df.to_csv('fiber_routes.csv', index=False)
-    sensors_df.to_csv('traffic_sensors.csv', index=False)
-    model_history.to_csv('model_history.csv', index=False)
+    tower_logs.to_csv('./data/tower_logs.csv', index=False)
+    transcripts_df.to_csv('./data/transcripts.csv', index=False)
+    routes_df.to_csv('./data/fiber_routes.csv', index=False)
+    sensors_df.to_csv('./data/traffic_sensors.csv', index=False)
+    model_history.to_csv('./data/model_history.csv', index=False)
     print("Assignment data generated successfully!")
+
+
+def generate_missing_data(num_users=1000):
+    """
+    Generates mock telecom plans and customer subscriptions 
+    to serve as the mock customer database for Task 1.
+    """
+    np.random.seed(42)
+
+    # 1. Define Available Plans
+    plans_df = pd.DataFrame({
+        'plan_id': ['P_BASIC', 'P_STANDARD', 'P_PREMIUM', 'P_ULTRA'],
+        'plan_name': [
+            'Basic 10GB', 'Standard 50GB', 'Premium 100GB', 'Ultra Unlimited'
+        ],
+        'data_limit_gb': [10, 50, 100, 999],
+        'price_usd': [15, 30, 50, 80]
+    })
+
+    # 2. Map Users to Plans
+    user_ids = [f"CUST_{i:03}" for i in range(num_users)]
+    subs_df = pd.DataFrame({
+        'user_id': user_ids,
+        'current_plan_id': np.random.choice(
+            ['P_BASIC', 'P_STANDARD', 'P_PREMIUM'], 
+            num_users, 
+            p=[0.5, 0.4, 0.1]
+        )
+    })
+
+    # Save to CSV
+    plans_df.to_csv('./data/plans.csv', index=False)
+    subs_df.to_csv('./data/customer_subscriptions.csv', index=False)
+    print("Missing data (plans.csv and customer_subscriptions.csv) generated successfully!")
+
 
 if __name__ == "__main__":
     generate_assignment_data()
+    generate_missing_data()

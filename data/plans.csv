@@ -1,0 +1,5 @@
+plan_id,plan_name,data_limit_gb,price_usd
+P_BASIC,Basic 10GB,10,15
+P_STANDARD,Standard 50GB,50,30
+P_PREMIUM,Premium 100GB,100,50
+P_ULTRA,Ultra Unlimited,999,80

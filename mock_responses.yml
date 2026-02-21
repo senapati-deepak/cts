@@ -1,0 +1,6 @@
+responses:
+  "dummy_prompt": "dummy_response"
+defaults:
+  unknown_response: '{"recommended_plan_id": "P_ULTRA", "discount_applied_flag": true, "proposed_discount_amount": 50, "agent_reasoning": "Customer is highly frustrated with dropped calls. Recommending Ultra plan and offering a $50 discount to prevent churn."}'
+settings:
+  lag_enabled: false
