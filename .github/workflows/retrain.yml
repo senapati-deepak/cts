@@ -1,0 +1,34 @@
+name: Model Drift Detection & Retrain
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Run every night at midnight
+  workflow_dispatch:    # Allow manual triggers
+
+jobs:
+  drift_check:
+    name: K-S Drift Evaluation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.12'
+          cache: 'pip'
+
+      - name: Install ML Dependencies
+        run: pip install pandas scipy
+
+      - name: Run Drift Check Script
+        id: evaluate_drift
+        run: python task4/drift_check.py
+        
+      - name: Trigger Vertex AI Retrain
+        if: failure() # This step ONLY runs if the previous step failed (drift detected)
+        run: |
+          echo "🔴 Statistically significant drift detected! Initiating Champion-Challenger Retrain..."
+          # Insert GCP Vertex AI SDK or gcloud trigger commands here
+          # gcloud ai custom-jobs create --region=us-central1 ...
